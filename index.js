@@ -1,9 +1,3 @@
-/*****************************************************************************
- * Challenge 2: Review the provided code. The provided code includes:
- * -> Statements that import data from games.js
- * -> A function that deletes all child elements from a parent element in the DOM
- */
-
 // import the JSON data about the crowd funded games from the games.js file
 import GAMES_DATA from "./games.js";
 
@@ -16,11 +10,6 @@ function deleteChildElements(parent) {
     parent.removeChild(parent.firstChild);
   }
 }
-
-/*****************************************************************************
- * Challenge 3: Add data about each game as a card to the games-container
- * Skills used: DOM manipulation, for loops, template literals, functions
- */
 
 // grab the element with the id games-container
 const gamesContainer = document.getElementById("games-container");
@@ -50,15 +39,30 @@ function addGamesToPage(games) {
   }
 }
 
-// call the function we just defined using the correct variable
-addGamesToPage(GAMES_JSON);
-// later, we'll call this function using a different list of games
+// function to filter games funded by Sea Monster Crowdfunding
+function filterSeaMonsterFunded() {
+  deleteChildElements(gamesContainer);
 
-/*************************************************************************************
- * Challenge 4: Create the summary statistics at the top of the page displaying the
- * total number of contributions, amount donated, and number of games on the site.
- * Skills used: arrow functions, reduce, template literals
- */
+  // Filter games funded by Sea Monster Crowdfunding
+  const seaMonsterFundedGames = GAMES_JSON.filter(
+    (game) => game.funder === "Sea Monster Crowdfunding"
+  );
+
+  // Use the function we previously created to add these games to the DOM
+  addGamesToPage(seaMonsterFundedGames);
+
+  // Scroll to the games section
+  gamesContainer.scrollIntoView({ behavior: "smooth" });
+
+  // Log the number of funded games by Sea Monster Crowdfunding
+  console.log(seaMonsterFundedGames.length);
+}
+
+// Call the function to initially display games funded by Sea Monster Crowdfunding
+filterSeaMonsterFunded();
+
+// Challenge 4: Create the summary statistics at the top of the page displaying the
+// total number of contributions, amount donated, and number of games on the site.
 
 // grab the contributions card element
 const contributionsCard = document.getElementById("num-contributions");
@@ -83,11 +87,7 @@ raisedCard.innerHTML = `$${totalRaised.toLocaleString("en-US")}`;
 const gamesCard = document.getElementById("num-games");
 gamesCard.innerHTML = `${GAMES_JSON.length}`;
 
-/*************************************************************************************
- * Challenge 5: Add functions to filter the funded and unfunded games
- * total number of contributions, amount donated, and number of games on the site.
- * Skills used: functions, filter
- */
+// Challenge 5: Add functions to filter the funded and unfunded games
 
 // show only games that do not yet have enough funding
 function filterUnfundedOnly() {
@@ -147,10 +147,7 @@ unfundedBtn.addEventListener("click", filterUnfundedOnly);
 fundedBtn.addEventListener("click", filterFundedOnly);
 allBtn.addEventListener("click", showAllGames);
 
-/*************************************************************************************
- * Challenge 6: Add more information at the top of the page about the company.
- * Skills used: template literals, ternary operator
- */
+// Challenge 6: Add more information at the top of the page about the company.
 
 // grab the description container
 const descriptionContainer = document.getElementById("description-container");
@@ -173,10 +170,7 @@ const summaryParagraph = document.createElement("p");
 summaryParagraph.innerHTML = summaryString;
 descriptionContainer.appendChild(summaryParagraph);
 
-/************************************************************************************
- * Challenge 7: Select & display the top 2 games
- * Skills used: spread operator, destructuring, template literals, sort
- */
+// Challenge 7: Select & display the top 2 games
 
 const firstGameContainer = document.getElementById("first-game");
 const secondGameContainer = document.getElementById("second-game");
